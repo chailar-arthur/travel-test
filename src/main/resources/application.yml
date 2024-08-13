@@ -1,0 +1,19 @@
+spring:
+  thymeleaf:
+    check-template: true
+    check-template-location: true
+    cache: true
+    servlet:
+      content-type: text/html
+
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+
+
+jdbc:
+  url: D:\code2\travel\
+  driver-class-name: org.sqlite.JDBC
+
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Route overview</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<div th:include="nav.html"></div>
+<h2 style="margin-bottom: 5px" class="text-center">The overview of Routes</h2>
+<table class="table" style="width: 30%;margin: 10px auto">
+    <caption>List of routes
+        <button type="button" style="margin: 30px" class="btn btn-primary" data-toggle="modal" data-target="#Modal1">
+            Add
+        </button>
+    </caption>
+    <thead>
+    <tr>
+        <th scope="col">name</th>
+        <th scope="col">view detail</th>
+        <th scope="col">delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="route : ${page.getRecords()}">
+        <td th:text="${route.name}"></td>
+        <td><a th:href="'/route/detail/'+${route.id}">view detail</a></td>
+        <td><a th:if="${route.pId==session.user}" th:href="'/route/delete/'+${route.id}">delete</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add a route</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="name">name</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="name" placeholder="name"></div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="spot">first spot</label></div>
+                        <div class="col-8">
+                            <select class="custom-select my-1 mr-sm-2" id="spot">
+                                <div th:each="spot : ${addItems}">
+                                    <option th:value="${spot.id}" th:text="${spot.name}"></option>
+                                </div>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="add">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" th:if="${page.getPages()==1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}+'?'">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" th:href="'/route/overview/'+${page.getCurrent()}"
+                                        th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/route/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()+2<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/route/overview/'+${page.getCurrent()+2}"
+                                                                                 th:text="${page.getCurrent()+2}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center" th:if="${page.getCurrent()==1 && page.getPages()!=1} ">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}+'?'">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" th:href="'/route/overview/'+${page.getCurrent()}"
+                                        th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/route/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()+2<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/route/overview/'+${page.getCurrent()+2}"
+                                                                                 th:text="${page.getCurrent()+2}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center"
+        th:if="${page.getCurrent()==page.getPages() && page.getPages()!=1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()-2> 0}"><a class="page-link"
+                                                                   th:href="'/route/overview/'+${page.getCurrent()-2}"
+                                                                   th:text="${page.getCurrent()-2}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()-1> 0}"><a class="page-link"
+                                                                   th:href="'/route/overview/'+${page.getCurrent()-1}"
+                                                                   th:text="${page.getCurrent()-1}"></a></li>
+        <li class="page-item active  disabled"><a class="page-link"
+                                                  th:href="'/route/overview/'+${page.getCurrent()}"
+                                                  th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center"
+        th:if="${page.getCurrent()!=page.getPages() && page.getCurrent()!=1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()-1 > 0}"><a class="page-link"
+                                                                    th:href="'/route/overview/'+${page.getCurrent()-1}"
+                                                                    th:text="${page.getCurrent()-1}"></a></li>
+        <li class="page-item active disabled"><a class="page-link" th:href="'/route/overview/'+${page.getCurrent()}"
+                                                 th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link"
+                                                                                 th:href="'/route/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/route/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+</nav>
+<div th:include="footer.html"></div>
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+    $("#route").addClass("active")
+
+    $("#add").click(async function () {
+        if ($("#name").val() === null || $("#spot").val() === '') {
+            alert("it can not be empty")
+            return
+        }
+        var formData = new FormData()
+        formData.append("name",$("#name").val())
+        formData.append("firstSpotId",parseInt($("#spot").val()))
+        const {data} = await axios({
+            method: 'post',
+            url: '/route/add',
+            data: formData
+        })
+        if(data['status']==="1"){
+            window.location.href="/route/overview/1"
+        }else{
+            alert("add failed")
+        }
+    })
+</script>
+</html>

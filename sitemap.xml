@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>http://localhost:8080/index</loc>
+    </url>
+    <url>
+<!--        http://localhost:8080/pdf/1/{routeId}-->
+        <loc>http://localhost:8080/pdf/1</loc>
+    </url>
+    <url>
+        <loc>http://localhost:8080/pdf/1</loc>
+    </url>
+    <url>
+<!--        http://localhost:8080/route/overview/{currentPage}-->
+        <loc>http://localhost:8080/route/overview/1</loc>
+    </url>
+    <url>
+        <!--        http://localhost:8080/route/detail/{routeId}-->
+        <loc>http://localhost:8080/route/detail/1</loc>
+    </url>
+    <url>
+        <!--        http://localhost:8080/route/delete/{routeId}-->
+        <loc>http://localhost:8080/route/delete/1</loc>
+    </url>
+    <url>
+        <!--        http://localhost:8080/route/detail/delete/{routeId}-->
+        <loc>http://localhost:8080/route/detail/delete/1</loc>
+    </url>
+    <url>
+        <!--        http://localhost:8080/route/detail/add/{routeId}-->
+        <loc>http://localhost:8080/route/detail/add/1</loc>
+    </url>
+    <url>
+        <!--        http://localhost:8080/route/add   POST-->
+        <loc>http://localhost:8080/route/add</loc>
+    </url>
+    <url>
+        <!--POST-->
+        <loc>http://localhost:8080/user/login</loc>
+    </url>
+    <url>
+        <!--GET-->
+        <loc>http://localhost:8080/user/login</loc>
+    </url>
+    <url>
+        <!--POST-->
+        <loc>http://localhost:8080/user/register</loc>
+    </url>
+    <url>
+        <!--GET-->
+        <loc>http://localhost:8080/user/register</loc>
+    </url>
+    <url>
+        <loc>http://localhost:8080/user/exit</loc>
+    </url>
+    <url>
+        <!--http://localhost:8080/spot/detail/{id}-->
+        <loc>http://localhost:8080/spot/detail/1</loc>
+    </url>
+    <url>
+        <!--http://localhost:8080/spot/overview/{currentPage}-->
+        <loc>http://localhost:8080/spot/overview/1</loc>
+    </url>
+    <url>
+        <!--POST-->
+        <loc>http://localhost:8080/spot/add</loc>
+    </url>
+</urlset>

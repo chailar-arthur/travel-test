@@ -1,0 +1,38 @@
+<ul class="nav nav-pills">
+    <li style="width: 34%"></li>
+    <li class="nav-item">
+        <a class="nav-link" href="/index" id="home">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/spot/overview/1" id="overview">Overview of spots</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" id="detail">detail of spots</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/route/overview/1" id="route">tourism route</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" id="detail2">detail of routes</a>
+    </li>
+    <li style="width: 20%"></li>
+    <li class="nav-item" th:if="!${session.user}">
+        <a class="nav-link" href="/user/login" id="login">login</a>
+    </li>
+    <li class="nav-item" th:if="!${session.user}">
+        <a class="nav-link" href="/user/register" id="register">register</a>
+    </li>
+    <li class="nav-item" th:if="${session.user}">
+        <a class="nav-link" href="/user/exit" id="exit">exit login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#"  id="back">back</a>
+    </li>
+</ul>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script>
+    $("#back").click(function (event){
+        event.preventDefault();
+        window.location.href=document.referrer
+    })
+</script>

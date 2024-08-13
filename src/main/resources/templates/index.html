@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>China Tourism</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<div th:include="nav.html"></div>
+
+
+<h1 class="text-center">Welcome to China Tourism</h1>
+<div style="margin:50px auto;">
+    <h3 class="text-center">the most popular spot</h3>
+    <div class="card mb-3" style="width: 650px;margin:5px auto;">
+        <div class="row no-gutters">
+            <div class="col-md-9">
+                <img th:src="${spot.picture}"  class="card-img-bottom" alt="...">
+            </div>
+            <div class="col-md-3" style="margin:auto;">
+                <div class="card-body">
+                    <h5 class="card-title text-center" th:text="${spot.name}"></h5>
+                    <p class="card-text text-center" th:text="${spot.city}"></p>
+                    <p class="card-text text-center" th:text="'visit_num: '+${spot.visitNum}"><small class="text-muted"></small></p>
+                    <a th:href="'/spot/detail/'+${spot.id}" style="margin:auto;"><small class="text-muted">view detail</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="footer.html"></div>
+
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script>
+    $("#home").addClass("active")
+    $("#back").addClass("d-none")
+</script>
+</html>

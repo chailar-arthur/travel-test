@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+
+<div th:include="nav.html"></div>
+<div class="card bg-dark text-white">
+    <img src="/image/Background.jpg" class="card-img" height="900px">
+    <div class="card-img-overlay">
+        <div class="card text-white bg-dark mb-3" style="max-width: 30rem;margin: auto">
+            <h3 class="card-header text-center">Register</h3>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="phone">phone_number</label>
+                        <input type="text" id="phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">password</label>
+                        <input type="password" id="password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="registerButton">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="footer.html"></div>
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script>
+    $("#register").addClass("active")
+    $("#registerButton").click(async function (event) {
+        event.preventDefault();
+        if ($("#password").val()==='' || $("#phone").val()==='') {
+            alert("it can not be empty")
+            return
+        }
+        const {data} = await axios({
+            method: 'post',
+            url: '/user/register',
+            data: {
+                phone: $("#phone").val(),
+                password: $("#password").val()
+            }
+        })
+        if (data.status === "1") {
+            alert("register success！")
+            window.location.href = "/user/login"
+        } else {
+            if (data.status === "0")
+                alert("this phone has been registered!")
+            else
+                alert("register failed！")
+        }
+    })
+</script>
+</html>

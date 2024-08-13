@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overview</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<div th:include="nav.html"></div>
+<h2 style="margin-bottom: 5px" class="text-center">The overview of Spots</h2>
+
+
+<div class="form-inline justify-content-center">
+    <div style="margin: 10px 0">
+        <label class="col-form-label sr-only" for="searchOption">Search tools:</label>
+        <select class="custom-select my-1 mr-sm-2" id="searchOption">
+            <option selected value="0">select by area</option>
+            <option value="1">select by x,y</option>
+        </select>
+    </div>
+    <div id="area">
+        <label class="col-form-label sr-only" for="byArea">Areas:</label>
+        <select class="custom-select my-1 mr-sm-2" id="byArea">
+            <div th:each="area:${areas}">
+                <option th:text="${area}" th:value="${area}"></option>
+            </div>
+        </select>
+    </div>
+
+    <div class="d-none" id="xy">
+        <label class="sr-only" for="x1">x1</label>
+        <input style="width: 150px" type="text" class="form-control" id="x1" placeholder="x-min">
+        <label class="sr-only" for="x2">x2</label>
+        <input style="width: 150px" type="text" class="form-control" id="x2" placeholder="x-max">
+        <label class="sr-only" for="y1">y1</label>
+        <input style="width: 150px" type="text" class="form-control" id="y1" placeholder="y-min">
+        <label class="sr-only" for="y2">y2</label>
+        <input style="width: 150px" type="text" class="form-control" id="y2" placeholder="y-max">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary my-1" id="search">Search</button>
+    <button type="button" style="margin: 30px" class="btn btn-primary" data-toggle="modal" data-target="#Modal1">Add
+    </button>
+</div>
+
+
+<div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add a spot</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="name">name</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="name" placeholder="name"></div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="city">city</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="city" placeholder="city">
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="location">location</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="location" placeholder="location">
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="location_x">location_x</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="location_x"
+                                                  placeholder="location_x"></div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="col-4"><label for="location_y">location_y</label></div>
+                        <div class="col-8"><input type="text" class="form-control" id="location_y"
+                                                  placeholder="location_y"></div>
+                    </div>
+                    <div class="row" style="margin: 5px 0">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="picture" accept="image/*">
+                            <label class="custom-file-label" for="picture">Choose picture..........</label>
+                        </div>
+                    </div>
+                </div>
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="add">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="card mb-3" style="width: 650px;margin:30px auto;" th:each="spot : ${page.getRecords()}">
+        <div class="row no-gutters">
+            <div class="col-md-9">
+                <img th:src="${spot.picture}" class="card-img-bottom" alt="...">
+            </div>
+            <div class="col-md-3" style="margin:auto;">
+                <div class="card-body">
+                    <h5 class="card-title text-center" th:text="${spot.name}"></h5>
+                    <p class="card-text text-center" th:text="${spot.city}"></p>
+                    <p class="card-text text-center" th:text="'visit_num: '+${spot.visitNum}"><small
+                            class="text-muted"></small></p>
+                    <a th:href="'/spot/detail/'+${spot.id}" style="margin:auto;"><small class="text-muted">view
+                        detail</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" th:if="${page.getPages()==1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}+'?'">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()}"
+                                        th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/spot/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()+2<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/spot/overview/'+${page.getCurrent()+2}"
+                                                                                 th:text="${page.getCurrent()+2}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center" th:if="${page.getCurrent()==1 && page.getPages()!=1} ">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}+'?'">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()}"
+                                        th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/spot/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()+2<=page.getPages()}"><a class="page-link disabled"
+                                                                                 th:href="'/spot/overview/'+${page.getCurrent()+2}"
+                                                                                 th:text="${page.getCurrent()+2}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center" th:if="${page.getCurrent()==page.getPages() && page.getPages()!=1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()-2> 0}"><a class="page-link"
+                                                                   th:href="'/spot/overview/'+${page.getCurrent()-2}"
+                                                                   th:text="${page.getCurrent()-2}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()-1> 0}"><a class="page-link"
+                                                                   th:href="'/spot/overview/'+${page.getCurrent()-1}"
+                                                                   th:text="${page.getCurrent()-1}"></a></li>
+        <li class="page-item active  disabled"><a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()}"
+                                                  th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+    <ul class="pagination justify-content-center" th:if="${page.getCurrent()!=page.getPages() && page.getCurrent()!=1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasPrevious()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()-1}">Previous</a>
+        </li>
+        <li class="page-item" th:if="${page.getCurrent()-1 > 0}"><a class="page-link"
+                                                                    th:href="'/spot/overview/'+${page.getCurrent()-1}"
+                                                                    th:text="${page.getCurrent()-1}"></a></li>
+        <li class="page-item active disabled"><a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()}"
+                                                 th:text="${page.getCurrent()}"></a></li>
+        <li class="page-item" th:if="${page.getCurrent()+1<=page.getPages()}"><a class="page-link"
+                                                                                 th:href="'/spot/overview/'+${page.getCurrent()+1}"
+                                                                                 th:text="${page.getCurrent()+1}"></a>
+        </li>
+        <li class="page-item" th:if="${page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+        <li class="page-item disabled" th:if="${!page.hasNext()}">
+            <a class="page-link" th:href="'/spot/overview/'+${page.getCurrent()+1}">Next</a>
+        </li>
+    </ul>
+</nav>
+<div th:include="footer.html"></div>
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+    $("#overview").addClass("active")
+    $("#searchOption").change(function (event) {
+        if (event.target.value === "0") {
+            $("#xy").addClass("d-none")
+            $("#area").removeClass("d-none")
+        } else {
+            $("#xy").removeClass("d-none")
+            $("#area").addClass("d-none")
+        }
+    })
+    var url = window.location.href;
+    var queryString = url.split('?')[1];
+
+    if (queryString !== undefined && queryString !== '') {
+        var x = $(".page-link")
+        for (var i = 0; i < x.length; i++) {
+            x[i].href += "?" + queryString
+        }
+        var queryParams = queryString.split('&');
+
+        var params = {};
+        queryParams.forEach(function (param) {
+            var keyValue = param.split('=');
+            var key = decodeURIComponent(keyValue[0]);
+            var value = decodeURIComponent(keyValue[1]);
+            params[key] = value;
+        });
+        if (params['city'] !== undefined) {
+            $("#searchOption").val("0")
+            $("#xy").addClass("d-none")
+            $("#area").removeClass("d-none")
+            $("#byArea").val(params['city'])
+        } else {
+            $("#searchOption").val("1")
+            $("#xy").removeClass("d-none")
+            $("#area").addClass("d-none")
+            $("#x1").val(params['x1'])
+            $("#x2").val(params['x2'])
+            $("#y1").val(params['y1'])
+            $("#y2").val(params['y2'])
+        }
+    }
+    $("#search").click(function (event) {
+        event.preventDefault();
+        if ($("#searchOption").val() === "0") {
+            if ($("#byArea").val() === '') {
+                alert("it can not be empty")
+                return
+            }
+            window.location.href = "/spot/overview/1?city=" + $("#byArea").val()
+        } else {
+            if ($("#x1").val() === '' || $("#x2").val() === '' || $("#y1").val() === '' || $("#y2").val() === '') {
+                alert("it can not be empty")
+                return
+            }
+            window.location.href = "/spot/overview/1?x1=" + $("#x1").val() + "&x2=" + $("#x2").val() + "&y1=" + $("#y1").val() + "&y2=" + $("#y2").val()
+        }
+    })
+    $("#add").click(async function () {
+        if ($("#name").val() === null || $("#description").val() === '' || $("#city").val() === '' || $("#location_x").val() === '' || $("#location_y").val() === '' || $("#location").val() === '' || $("#picture").val()==='') {
+            alert("it can not be empty")
+            return
+        }
+        var file = $("#picture")[0].files[0];
+        var formData = new FormData();
+        formData.append('picture', file);
+        formData.append("name",$("#name").val())
+        formData.append("city",$("#city").val())
+        formData.append("description",$("#description").val())
+        formData.append("location",$("#location").val())
+        formData.append("location_x",$("#location_x").val())
+        formData.append("location_y",$("#location_y").val())
+        const {data} = await axios({
+            method: 'post',
+            url: '/spot/add',
+            data: formData
+        })
+        if(data['status']===1){
+            alert("add failed")
+        }else{
+            alert("add success")
+            window.location.href="/spot/overview/1"
+        }
+    })
+    $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
+</html>

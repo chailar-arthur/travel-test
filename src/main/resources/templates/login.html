@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<div th:include="nav.html"></div>
+<div class="card bg-dark text-white">
+    <img src="/image/Background.jpg" class="card-img" height="900px">
+    <div class="card-img-overlay">
+        <div class="card text-white bg-dark mb-3" style="max-width: 30rem;margin: auto">
+            <h3 class="card-header text-center">Login</h3>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="phone">phone_number</label>
+                        <input type="text" id="phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">password</label>
+                        <input type="password" id="password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="loginButton">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="footer.html"></div>
+</body>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script>
+    $("#login").addClass("active")
+    $("#loginButton").click(async function (event) {
+        event.preventDefault();
+        if ($("#password").val()==='' || $("#phone").val()==='') {
+            alert("it can not be empty")
+            return
+        }
+        const {data} = await axios({
+            method: 'post',
+            url: '/user/login',
+            data: {
+                phone: $("#phone").val(),
+                password: $("#password").val()
+            }
+        })
+        if (data.status === "1") {
+            alert("login success！")
+            window.location.href = "/index"
+        } else {
+            if (data.status === "0") {
+                alert("this user has not register")
+                window.location.href = "/user/register"
+            } else {
+                alert("password error")
+            }
+        }
+
+    })
+</script>
+</html>
