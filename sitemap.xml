@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://localhost:8080/index</loc>
+        <loc>http://localhost:8081/index</loc>
     </url>
     <url>
 <!--        http://localhost:8080/pdf/1/{routeId}-->
